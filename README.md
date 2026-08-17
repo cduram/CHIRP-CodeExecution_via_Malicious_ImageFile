@@ -256,7 +256,7 @@ grep -rn "eval\|exec" chirp/drivers/
 |---|---|
 | 2026-08-17 | Both vectors discovered and runtime-confirmed |
 | 2026-08-17 | POCs and disclosure report prepared |
-| Day 0 | Initial report sent to vendor (kk7ds / CHIRP maintainers) |
+| 2026-08-17 | Initial report sent to dsmith@danplanet.com |
 | Day 7 | Follow-up if no acknowledgment received |
 | Day 30 | Request status update |
 | Day 90 | Public disclosure (coordinated) |
