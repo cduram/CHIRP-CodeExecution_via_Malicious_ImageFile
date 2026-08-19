@@ -6,26 +6,12 @@
 **Confirmed on:** chirp-next-20260814 (commit cb7d5e2); code unchanged since 2012  
 **CVSS v3.1:** 7.8 HIGH — `AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H`  
 **CWE:** CWE-95 (Eval Injection)  
-**Researcher:** Authorized security research  
 
 ---
 
 ## Overview
 
-CHIRP's Kenwood ITM file format driver passes raw CSV field values from an opened file directly to Python's built-in `eval()` with no validation. An attacker who delivers a crafted file to a CHIRP user achieves arbitrary code execution as the victim user. Two attack vectors were confirmed:
-
-| | Vector 1 — Direct `.itm` | Vector 2 — Metadata-spoofed `.img` |
-|---|---|---|
-| **File extension** | `.itm` | `.img` |
-| **Dialog filter** | Requires "All Files" | **Default** "Chirp Image Files" filter |
-| **Social engineering** | Moderate — unfamiliar extension | Low — indistinguishable from normal CHIRP image |
-| **POC** | `poc_arbitrary_code_execution_via_eval___on__itm_csv_fi.py` | `poc_metadata_spoofed__img_file_routes_to_itm_eval___by.py` |
-| **Payload file** | `evil.itm` | `evil_chirp.img` |
-| **Runtime confirmed** | Yes | Yes |
-
-Both vectors reach the same `eval()` sink in `kenwood_itm.py:66-67`. Vector 2 is the more practical attack: the victim sees a `.img` file in the standard dialog filter and has no reason to suspect it is anything other than a routine CHIRP radio memory backup.
-
----
+CHIRP's Kenwood ITM file format driver passes raw CSV field values from an opened file directly to Python's built-in `eval()` with no validation. An attacker who delivers a crafted file to a CHIRP user achieves arbitrary code execution as the victim user.
 
 ## Root Cause
 
@@ -39,47 +25,11 @@ def _clean_tmode(self, headers, line, mem):
 
 The TXSIG and RXSIG values come directly from a CSV row in the opened file. No type check, allowlist, or sandboxing is applied before `eval()`.
 
-### This is an outlier bug, not a design decision
+## POCs
 
-Three sibling drivers handle the same class of field (CTCSS tone frequency) safely:
+Below are two POCs. 
 
-| Driver | Field | Handling |
-|---|---|---|
-| `kenwood_itm.py` | TXSIG / RXSIG | `eval()` — **vulnerable** |
-| `kenwood_hmk.py` | TO Freq. / CT Freq. | `float()` — safe |
-| `generic_tpe.py` | tone | `float(v) if v in TONES else 88.5` — safe |
-| `generic_csv.py` | rToneFreq | `(float, "rtone")` cast — safe |
 
-`kenwood_hmk.py` is the direct sibling: commit `96f83537` touched both files in the same change, they parse the same class of field, and HMK does it safely with `float()`. The `eval()` in ITM is an isolated mistake.
-
----
-
-## Attack Vector 1 — Direct `.itm` File
-
-### How it works
-
-`ITMRadio.match_model()` (line 136) selects the driver on file extension alone — no content validation:
-
-```python
-@classmethod
-def match_model(cls, filedata, filename):
-    return filename.lower().endswith("." + cls.FILE_EXTENSION)  # ".itm"
-```
-
-`CSVRadio.__init__` auto-calls `load()` on construction, so driver selection is all the attacker needs.
-
-### Full call chain
-
-```
-File -> Open
-  wxui/main.py:582          open_file() -> get_radio_by_image()
-  directory.py:180-192      iterates DRV_TO_RADIO; ITMRadio.match_model() returns True
-  kenwood_itm.py:135-137    match_model() -> filename.endswith(".itm")
-  generic_csv.py:110-111    CSVRadio.__init__ -> self.load()
-  kenwood_itm.py:79-128     load() -> _parse_csv_data_line()
-  generic_csv.py:143-154    _clean() dispatches _clean_tmode()
-  kenwood_itm.py:65-67      _clean_tmode() -> eval(TXSIG)  <-- RCE
-```
 
 ### Malicious `.itm` structure
 
@@ -226,29 +176,7 @@ def _clean_tmode(self, headers, line, mem):
     return mem
 ```
 
-### Defence-in-depth — `directory.py:get_radio_by_image()`
 
-Reject files where the embedded metadata driver does not match the actual file extension. This closes Vector 2 independently of the `eval()` fix:
-
-```python
-# After selecting a driver via metadata (directory.py ~line 215)
-if not filename.lower().endswith('.' + rclass.FILE_EXTENSION):
-    LOG.warning(
-        'Metadata names %s/%s but file extension is %s — refusing',
-        meta_vendor, meta_model, os.path.splitext(filename)[1]
-    )
-    raise errors.ImageDetectFailed("Extension/metadata mismatch")
-```
-
-### Broader audit
-
-```bash
-grep -rn "eval\|exec" chirp/drivers/
-```
-
-`eval(generic_csv.get_datum_by_header` currently returns exactly two hits — both in `kenwood_itm.py`. No other driver is affected.
-
----
 
 ## Disclosure
 
