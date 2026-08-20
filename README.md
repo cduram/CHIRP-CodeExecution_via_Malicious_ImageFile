@@ -51,7 +51,6 @@ CH,ZN,RXF,TXF,NAME,TXSIG,RXSIG
 3. Change the filter dropdown to **"All Files (\*.\*)"** (ITM does not call `register_format()` so `.itm` is not a named filter).
 4. Select `{file_name}.itm`.
 
----
 
 ## Impact
 
