@@ -52,7 +52,7 @@ CH,ZN,RXF,TXF,NAME,TXSIG,RXSIG
 
 1. Launch CHIRP.
 2. **File → Open**.
-3. Select `{file_name}.img`. If using the .itm payload, change the filter dropdown to **"All Files (\*.\*)"** (ITM does not call `register_format()` so `.itm` is not a named filter).
+3. Select `{file_name}.img`. _If using the .itm payload, change the filter dropdown to **"All Files (\*.\*)"** (ITM does not call `register_format()` so `.itm` is not a named filter)._
 5. Select `{file_name}.itm`.
 
 
