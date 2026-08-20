@@ -1,6 +1,5 @@
 # CHIRP — Arbitrary Code Execution via `eval()` in Kenwood ITM Driver
 
-**CVE:** Pending  
 **Product:** CHIRP (all versions containing `chirp/drivers/kenwood_itm.py`)  
 **Vendor:** kk7ds / CHIRP project — https://github.com/kk7ds/chirp  
 **Confirmed on:** chirp-next-20260814 (commit cb7d5e2); code unchanged since 2012
