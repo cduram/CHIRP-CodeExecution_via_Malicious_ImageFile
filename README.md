@@ -58,7 +58,7 @@ CH,ZN,RXF,TXF,NAME,TXSIG,RXSIG
 
 ## Disclosure
 
-| Date | Event |
+| Date |
 |---|---|
 | 2026-08-17 | Both vectors discovered and runtime-confirmed |
 | 2026-08-17 | POCs and disclosure report prepared |
