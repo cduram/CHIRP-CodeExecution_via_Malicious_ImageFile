@@ -2,9 +2,8 @@
 
 **Product:** CHIRP (all versions containing `chirp/drivers/kenwood_itm.py`)  
 **Vendor:** kk7ds / CHIRP project — https://github.com/kk7ds/chirp  
-**Confirmed on:** chirp-next-20260814 (commit cb7d5e2); code unchanged since 2012
-**Fixed on** Commit 39178db
-**CVSS v3.1:** 7.8 HIGH — `AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H`  
+**Confirmed on:** chirp-next-20260814 (commit cb7d5e2); code unchanged since 2012 
+**Fixed on** Commit 39178db  
 **CWE:** CWE-95 (Eval Injection)  
 
 ---
