@@ -56,18 +56,6 @@ CH,ZN,RXF,TXF,NAME,TXSIG,RXSIG
 5. Select `{file_name}.itm`.
 
 
-## Impact
-
-Any CHIRP user who opens a crafted file executes attacker-controlled Python code with their own OS-level privileges. No special conditions, elevated rights, or configuration are required. Viable delivery paths include:
-
-- Email attachment
-- Shared network drive (radio club, repeater group file shares)
-- Download from a poisoned third-party source
-- Repository containing radio frequency databases
-
-IMG files are the higher-risk delivery since it's the standard format CHIRP users exchange to share radio configurations.
-
-
 ## Disclosure
 
 | Date | Event |
