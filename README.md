@@ -3,7 +3,8 @@
 **CVE:** Pending  
 **Product:** CHIRP (all versions containing `chirp/drivers/kenwood_itm.py`)  
 **Vendor:** kk7ds / CHIRP project — https://github.com/kk7ds/chirp  
-**Confirmed on:** chirp-next-20260814 (commit cb7d5e2); code unchanged since 2012  
+**Confirmed on:** chirp-next-20260814 (commit cb7d5e2); code unchanged since 2012
+**Fixed on** Commit 39178db
 **CVSS v3.1:** 7.8 HIGH — `AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H`  
 **CWE:** CWE-95 (Eval Injection)  
 
@@ -147,36 +148,6 @@ Any CHIRP user who opens a crafted file executes attacker-controlled Python code
 
 Vector 2 is the higher-risk delivery: a `.img` file is the standard format CHIRP users exchange to share radio configurations. A victim opening what appears to be a peer's radio memory backup has no reason to distrust it.
 
----
-
-## Remediation
-
-### Required — `kenwood_itm.py:_clean_tmode()`
-
-Replace both `eval()` calls with safe `float()` casting, exactly as the three safe sibling drivers do:
-
-```python
-def _clean_tmode(self, headers, line, mem):
-    try:
-        rtone = float(generic_csv.get_datum_by_header(headers, line, "TXSIG"))
-    except (ValueError, TypeError):
-        rtone = 0.0
-    try:
-        ctone = float(generic_csv.get_datum_by_header(headers, line, "RXSIG"))
-    except (ValueError, TypeError):
-        ctone = 0.0
-
-    if rtone:
-        mem.tmode = "Tone"
-    if ctone:
-        mem.tmode = "TSQL"
-
-    mem.rtone = rtone or 88.5
-    mem.ctone = ctone or mem.rtone
-    return mem
-```
-
-
 
 ## Disclosure
 
@@ -186,10 +157,4 @@ def _clean_tmode(self, headers, line, mem):
 | 2026-08-17 | POCs and disclosure report prepared |
 | 2026-08-17 | Initial report sent to dsmith@danplanet.com |
 | 2026-08-17 | Responded and fixed same day. https://github.com/kk7ds/chirp/commit/39178dbfc4fece083ab9ed20286d6ae3a91a718e
-| Day 7 | Follow-up if no acknowledgment received |
-| Day 30 | Request status update |
-| Day 90 | Public disclosure (coordinated) |
 
-**Contact for vendor:** https://github.com/kk7ds/chirp/issues (security reports) or the maintainer contact listed in the repository.
-
-This vulnerability was discovered during authorized security research. All testing was performed on systems owned by the researcher. These POCs are provided for responsible disclosure and defensive purposes only.
