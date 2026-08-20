@@ -65,7 +65,7 @@ Any CHIRP user who opens a crafted file executes attacker-controlled Python code
 - Download from a poisoned third-party source
 - Repository containing radio frequency databases
 
-Vector 2 is the higher-risk delivery: a `.img` file is the standard format CHIRP users exchange to share radio configurations. A victim opening what appears to be a peer's radio memory backup has no reason to distrust it.
+IMG files are the higher-risk delivery since it's the standard format CHIRP users exchange to share radio configurations.
 
 
 ## Disclosure
