@@ -56,10 +56,8 @@ CH,ZN,RXF,TXF,NAME,TXSIG,RXSIG
 5. Select `{file_name}.itm`.
 
 
-## Disclosure
+## Disclosure  
 
-| Date |  
-|---|---|  
 | 2026-08-17 | Both vectors discovered and runtime-confirmed |  
 | 2026-08-17 | POCs and disclosure report prepared |  
 | 2026-08-17 | Initial report sent to dsmith@danplanet.com |  
