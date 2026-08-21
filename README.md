@@ -1,9 +1,9 @@
 # CHIRP — Arbitrary Code Execution via `eval()` in Kenwood ITM Driver
 
-**Product:** CHIRP (all versions containing `chirp/drivers/kenwood_itm.py`)  
-**Vendor:** kk7ds / CHIRP project — https://github.com/kk7ds/chirp  
-**Confirmed on:** chirp-next-20260814 (commit cb7d5e2); code unchanged since 2012 
-**Fixed on** Commit 39178db  
+**Product:** CHIRP - An open-source project for programming Ham Radios.  
+**Affected Versions:** 
+**URL:** https://github.com/kk7ds/chirp, https://chirpmyradio.com  
+**Affected Versions:** <= chirp-next-20260814  
 **CWE:** CWE-95 (Eval Injection)  
 
 ---
