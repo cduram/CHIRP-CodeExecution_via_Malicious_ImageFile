@@ -58,7 +58,7 @@ CH,ZN,RXF,TXF,NAME,TXSIG,RXSIG
 
 ## Disclosure  
 
-2026-08-17 -- Both vectors discovered and runtime-confirmed  
+2026-08-17 -- Vulnerability discovered
 2026-08-17 -- POCs and disclosure report prepared  
 2026-08-17 -- Initial report sent to dsmith@danplanet.com  
 2026-08-17 -- Responded and code fixed same day. https://github.com/kk7ds/chirp/commit/39178dbfc4fece083ab9ed20286d6ae3a91a718e  
